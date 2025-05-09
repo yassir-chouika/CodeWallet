@@ -1,3 +1,13 @@
-export default function FragmentForm() {
-  return <div className="p-4">Fragment Form Page</div>
+import { useParams } from 'react-router-dom'
+
+const FragmentForm = () => {
+  const { id } = useParams()
+
+  return (
+    <div>
+      <h1>{id ? 'Edit Fragment' : 'New Fragment'}</h1>
+    </div>
+  )
 }
+
+export default FragmentForm

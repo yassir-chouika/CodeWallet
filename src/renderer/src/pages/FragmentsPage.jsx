@@ -1,3 +1,9 @@
-export default function FragmentsPage() {
-  return <div className="p-4">Fragments Page (Snippet List)</div>
+const FragmentsPage = () => {
+  return (
+    <div>
+      <h1>Fragments Page</h1>
+    </div>
+  )
 }
+
+export default FragmentsPage

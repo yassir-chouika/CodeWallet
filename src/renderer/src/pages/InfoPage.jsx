@@ -1,3 +1,9 @@
-export default function InfoPage() {
-  return <div className="p-4">Info Page</div>
+const InfoPage = () => {
+  return (
+    <div>
+      <h1>Info Page</h1>
+    </div>
+  )
 }
+
+export default InfoPage

@@ -1,3 +1,9 @@
-export default function TagsPage() {
-  return <div className="p-4">Tags Page</div>
+const TagsPage = () => {
+  return (
+    <div>
+      <h1>Tags Page</h1>
+    </div>
+  )
 }
+
+export default TagsPage
