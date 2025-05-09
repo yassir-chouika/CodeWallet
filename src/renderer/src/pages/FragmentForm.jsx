@@ -1,11 +1,8 @@
-import { useParams } from 'react-router-dom'
-
 const FragmentForm = () => {
-  const { id } = useParams()
-
   return (
     <div>
-      <h1>{id ? 'Edit Fragment' : 'New Fragment'}</h1>
+      <h1>📝 Add / Edit Snippet</h1>
+      <p>This page will contain a form.</p>
     </div>
   )
 }

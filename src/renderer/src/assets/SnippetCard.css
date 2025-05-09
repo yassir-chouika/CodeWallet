@@ -1,0 +1,56 @@
+.snippet-card {
+  background-color: #ffffff;
+  border: 1px solid #b288c0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.snippet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.snippet-header h3 {
+  margin: 0;
+  color: #333333;
+}
+
+.snippet-actions button {
+  background-color: #9a48d0;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  margin-left: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.snippet-actions button:hover {
+  background-color: #7bc950;
+}
+
+.snippet-code {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 12px;
+  overflow-x: auto;
+}
+
+.snippet-tags {
+  margin-top: 10px;
+}
+
+.tag {
+  background-color: #b288c0;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 5px;
+}
