@@ -1,17 +1,12 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import SnippetCard from '../components/SnippetCard'
 import Modal from '../components/Modal'
+import useStore from '../state/useStore'
 
 const FragmentsPage = () => {
-  const [snippets, setSnippets] = useState([
-    {
-      id: crypto.randomUUID(),
-      title: 'Fetch API Example',
-      code: `fetch('/api/data')\n  .then(res => res.json())\n  .then(console.log);`,
-      tags: ['api', 'fetch']
-    }
-  ])
-
+  const snippets = useStore((state) => state.snippets)
+  const deleteSnippet = useStore((state) => state.deleteSnippet)
   const [selectedCode, setSelectedCode] = useState('')
   const [isModalVisible, setModalVisible] = useState(false)
 
@@ -21,43 +16,28 @@ const FragmentsPage = () => {
   }
 
   const handleDelete = (id) => {
-    setSnippets((prev) => prev.filter((s) => s.id !== id))
-  }
-
-  const handleAddSnippet = () => {
-    const title = prompt('Enter title:')
-    const code = prompt('Enter code:')
-    const tags = prompt('Enter tags (comma-separated):')
-      ?.split(',')
-      .map((tag) => tag.trim())
-
-    if (title && code) {
-      const newSnippet = {
-        id: crypto.randomUUID(),
-        title,
-        code,
-        tags: tags ?? []
-      }
-
-      setSnippets((prev) => [...prev, newSnippet])
-    }
+    deleteSnippet(id)
   }
 
   return (
-    <div>
-      <h1>📄 Code Snippets</h1>
-      <button onClick={handleAddSnippet} style={{ marginBottom: '1rem' }}>
-        ➕ Add New Snippet
-      </button>
+    <div className="container">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>📄 Code Snippets</h1>
+        <Link to="/fragment">
+          <button className="button">+ New Fragment</button>
+        </Link>
+      </div>
 
-      {snippets.map((snippet) => (
-        <SnippetCard
-          key={snippet.id}
-          snippet={snippet}
-          onView={handleView}
-          onDelete={handleDelete}
-        />
-      ))}
+      <div className="fragment-list">
+        {snippets.map((snippet) => (
+          <SnippetCard
+            key={snippet.id}
+            snippet={snippet}
+            onView={handleView}
+            onDelete={handleDelete}
+          />
+        ))}
+      </div>
 
       <Modal visible={isModalVisible} code={selectedCode} onClose={() => setModalVisible(false)} />
     </div>
