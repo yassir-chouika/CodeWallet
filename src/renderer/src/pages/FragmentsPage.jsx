@@ -1,32 +1,64 @@
-import SnippetCard from '../components/SnippetCard'
 import { useState } from 'react'
+import SnippetCard from '../components/SnippetCard'
 import Modal from '../components/Modal'
 
-const testSnippet = {
-  id: '1',
-  title: 'Fetch API Example',
-  code: `fetch('/api/data')\n  .then(res => res.json())\n  .then(console.log);`,
-  tags: ['api', 'fetch']
-}
-
 const FragmentsPage = () => {
+  const [snippets, setSnippets] = useState([
+    {
+      id: crypto.randomUUID(),
+      title: 'Fetch API Example',
+      code: `fetch('/api/data')\n  .then(res => res.json())\n  .then(console.log);`,
+      tags: ['api', 'fetch']
+    }
+  ])
+
   const [selectedCode, setSelectedCode] = useState('')
   const [isModalVisible, setModalVisible] = useState(false)
 
   const handleView = (snippet) => {
-    console.log('Modal triggered with code:', snippet.code)
     setSelectedCode(snippet.code)
     setModalVisible(true)
   }
 
   const handleDelete = (id) => {
-    console.log('Delete snippet with id:', id)
+    setSnippets((prev) => prev.filter((s) => s.id !== id))
+  }
+
+  const handleAddSnippet = () => {
+    const title = prompt('Enter title:')
+    const code = prompt('Enter code:')
+    const tags = prompt('Enter tags (comma-separated):')
+      ?.split(',')
+      .map((tag) => tag.trim())
+
+    if (title && code) {
+      const newSnippet = {
+        id: crypto.randomUUID(),
+        title,
+        code,
+        tags: tags ?? []
+      }
+
+      setSnippets((prev) => [...prev, newSnippet])
+    }
   }
 
   return (
     <div>
       <h1>📄 Code Snippets</h1>
-      <SnippetCard snippet={testSnippet} onView={handleView} onDelete={handleDelete} />
+      <button onClick={handleAddSnippet} style={{ marginBottom: '1rem' }}>
+        ➕ Add New Snippet
+      </button>
+
+      {snippets.map((snippet) => (
+        <SnippetCard
+          key={snippet.id}
+          snippet={snippet}
+          onView={handleView}
+          onDelete={handleDelete}
+        />
+      ))}
+
       <Modal visible={isModalVisible} code={selectedCode} onClose={() => setModalVisible(false)} />
     </div>
   )
