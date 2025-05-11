@@ -1,11 +1,20 @@
 import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
 import '../assets/SnippetCard.css'
 
 const SnippetCard = ({ snippet, onView, onDelete }) => {
+  const navigate = useNavigate()
+
   return (
     <div className="snippet-card">
       <div className="snippet-header">
-        <h3>{snippet.title}</h3>
+        <h3
+          style={{ cursor: 'pointer', textDecoration: 'underline' }}
+          onClick={() => navigate(`/fragment/${snippet.id}`)}
+        >
+          {snippet.title}
+        </h3>
+
         <div className="snippet-actions">
           <button onClick={() => onView(snippet)}>View</button>
           <button onClick={() => onDelete(snippet.id)}>Delete</button>

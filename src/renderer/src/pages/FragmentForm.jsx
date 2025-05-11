@@ -1,34 +1,64 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import useStore from '../state/useStore'
 
 const FragmentForm = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+
+  const addSnippet = useStore((state) => state.addSnippet)
+  const updateSnippet = useStore((state) => state.updateSnippet)
+  const snippets = useStore((state) => state.snippets)
+
+  const editingSnippet = id && snippets.find((s) => s.id === id)
+
   const [title, setTitle] = useState('')
   const [code, setCode] = useState('')
   const [tags, setTags] = useState('')
-  const addSnippet = useStore((state) => state.addSnippet)
-  const navigate = useNavigate()
+
+  // 🧠 Load existing snippet data when editing
+  useEffect(() => {
+    if (id && snippets.length > 0) {
+      const found = snippets.find((s) => s.id === id)
+
+      if (found) {
+        setTitle(found.title)
+        setCode(found.code)
+        setTags(found.tags.join(', '))
+      }
+    }
+  }, [id, snippets])
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const newSnippet = {
-      id: crypto.randomUUID(),
-      title,
-      code,
-      tags: tags
-        .split(',')
-        .map((t) => t.trim())
-        .filter(Boolean)
+    const parsedTags = tags
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean)
+
+    if (editingSnippet) {
+      updateSnippet({
+        ...editingSnippet,
+        title,
+        code,
+        tags: parsedTags
+      })
+    } else {
+      addSnippet({
+        id: crypto.randomUUID(),
+        title,
+        code,
+        tags: parsedTags
+      })
     }
 
-    addSnippet(newSnippet)
     navigate('/')
   }
 
   return (
     <div className="container">
-      <h2>Add New Snippet</h2>
+      <h2>{editingSnippet ? 'Edit Snippet' : 'Add New Snippet'}</h2>
       <form onSubmit={handleSubmit}>
         <label>Title</label>
         <input value={title} onChange={(e) => setTitle(e.target.value)} required />
@@ -40,7 +70,7 @@ const FragmentForm = () => {
         <input value={tags} onChange={(e) => setTags(e.target.value)} />
 
         <button className="button" type="submit">
-          Save Snippet
+          {editingSnippet ? 'Update Snippet' : 'Save Snippet'}
         </button>
       </form>
     </div>

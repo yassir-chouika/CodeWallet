@@ -12,6 +12,11 @@ const useStore = create((set) => ({
   deleteSnippet: (id) =>
     set((state) => ({
       snippets: state.snippets.filter((s) => s.id !== id)
+    })),
+
+  updateSnippet: (updated) =>
+    set((state) => ({
+      snippets: state.snippets.map((s) => (s.id === updated.id ? updated : s))
     }))
 }))
 
