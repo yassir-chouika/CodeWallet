@@ -59,7 +59,7 @@ const FragmentForm = () => {
   return (
     <div className="container">
       <h2>{editingSnippet ? 'Edit Snippet' : 'Add New Snippet'}</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="snippet-form">
         <label>Title</label>
         <input value={title} onChange={(e) => setTitle(e.target.value)} required />
 

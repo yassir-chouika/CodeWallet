@@ -3,16 +3,25 @@ import PropTypes from 'prop-types'
 const Modal = ({ visible, onClose, code }) => {
   if (!visible) return null
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code)
+  }
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Code Preview</h2>
+        <div className="modal-header">
+          <h2>Code Preview</h2>
+          <button className="copy-btn" onClick={handleCopy}>📋 Copy</button>
+        </div>
+
         <pre className="code-box">
           <code>{code}</code>
         </pre>
-        <button className="close-btn" onClick={onClose}>
-          Close
-        </button>
+
+        <div className="modal-footer">
+          <button className="close-btn" onClick={onClose}>Close</button>
+        </div>
       </div>
     </div>
   )
