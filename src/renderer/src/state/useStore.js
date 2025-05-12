@@ -1,23 +1,31 @@
 import { create } from 'zustand'
-// import { persist } from 'zustand/middleware'
+import { loadSnippets, saveSnippets } from '../utils/storage'
 
-const useStore = create((set) => ({
+const useStore = create((set, get) => ({
   snippets: [],
 
-  addSnippet: (snippet) =>
-    set((state) => ({
-      snippets: [...state.snippets, snippet]
-    })),
+  initSnippets: async () => {
+    const data = await loadSnippets()
+    set({ snippets: data })
+  },
 
-  deleteSnippet: (id) =>
-    set((state) => ({
-      snippets: state.snippets.filter((s) => s.id !== id)
-    })),
+  addSnippet: (snippet) => {
+    const updated = [...get().snippets, snippet]
+    set({ snippets: updated })
+    saveSnippets(updated)
+  },
 
-  updateSnippet: (updated) =>
-    set((state) => ({
-      snippets: state.snippets.map((s) => (s.id === updated.id ? updated : s))
-    }))
+  deleteSnippet: (id) => {
+    const updated = get().snippets.filter((s) => s.id !== id)
+    set({ snippets: updated })
+    saveSnippets(updated)
+  },
+
+  updateSnippet: (updatedSnippet) => {
+    const updated = get().snippets.map((s) => (s.id === updatedSnippet.id ? updatedSnippet : s))
+    set({ snippets: updated })
+    saveSnippets(updated)
+  }
 }))
 
 export default useStore

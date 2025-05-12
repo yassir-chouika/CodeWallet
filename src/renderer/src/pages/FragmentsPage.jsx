@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import SnippetCard from '../components/SnippetCard'
 import Modal from '../components/Modal'
@@ -9,6 +9,9 @@ const FragmentsPage = () => {
   const deleteSnippet = useStore((state) => state.deleteSnippet)
   const [selectedCode, setSelectedCode] = useState('')
   const [isModalVisible, setModalVisible] = useState(false)
+  useEffect(() => {
+    useStore.getState().initSnippets()
+  }, [])
 
   const handleView = (snippet) => {
     setSelectedCode(snippet.code)
