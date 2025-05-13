@@ -5,10 +5,14 @@ import Modal from '../components/Modal'
 import useStore from '../state/useStore'
 
 const FragmentsPage = () => {
-  const snippets = useStore((state) => state.snippets)
   const deleteSnippet = useStore((state) => state.deleteSnippet)
+  const searchTerm = useStore((state) => state.searchTerm)
+  const setSearchTerm = useStore((state) => state.setSearchTerm)
+  const getFilteredSnippets = useStore((state) => state.getFilteredSnippets)
+
   const [selectedCode, setSelectedCode] = useState('')
   const [isModalVisible, setModalVisible] = useState(false)
+
   useEffect(() => {
     useStore.getState().initSnippets()
   }, [])
@@ -22,6 +26,9 @@ const FragmentsPage = () => {
     deleteSnippet(id)
   }
 
+  const snippets = useStore((state) => state.snippets)
+  const filteredSnippets = searchTerm ? getFilteredSnippets() : snippets
+
   return (
     <div className="container">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -31,15 +38,28 @@ const FragmentsPage = () => {
         </Link>
       </div>
 
+      {/* 🔍 Search Bar */}
+      <input
+        type="text"
+        placeholder="Search snippets..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="input mb-4 mt-2 w-full"
+      />
+
       <div className="fragment-list">
-        {snippets.map((snippet) => (
-          <SnippetCard
-            key={snippet.id}
-            snippet={snippet}
-            onView={handleView}
-            onDelete={handleDelete}
-          />
-        ))}
+        {filteredSnippets.length === 0 ? (
+          <p style={{ marginTop: '1rem' }}>No snippets found.</p>
+        ) : (
+          filteredSnippets.map((snippet) => (
+            <SnippetCard
+              key={snippet.id}
+              snippet={snippet}
+              onView={handleView}
+              onDelete={handleDelete}
+            />
+          ))
+        )}
       </div>
 
       <Modal visible={isModalVisible} code={selectedCode} onClose={() => setModalVisible(false)} />
