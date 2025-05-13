@@ -11,22 +11,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .snippet-header h3 {
   margin: 0;
   color: #333333;
+  font-size: 1.3rem;
+  transition: transform 0.3s ease;
+  
+}
+.snippet-header h3:hover {
+  color: #9a48d0;
+  transform: scale(1.08); 
 }
 
 .snippet-actions button {
   background-color: #9a48d0;
   color: #fff;
   border: none;
-  padding: 6px 12px;
+  padding: 0.6rem 1.2rem;
   margin-left: 8px;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .snippet-actions button:hover {

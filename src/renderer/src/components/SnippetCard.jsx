@@ -8,10 +8,7 @@ const SnippetCard = ({ snippet, onView, onDelete }) => {
   return (
     <div className="snippet-card">
       <div className="snippet-header">
-        <h3
-          style={{ cursor: 'pointer', textDecoration: 'underline' }}
-          onClick={() => navigate(`/fragment/${snippet.id}`)}
-        >
+        <h3 style={{ cursor: 'pointer' }} onClick={() => navigate(`/fragment/${snippet.id}`)}>
           {snippet.title}
         </h3>
 

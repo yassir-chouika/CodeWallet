@@ -34,7 +34,7 @@ const FragmentsPage = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>📄 Code Snippets</h1>
         <Link to="/fragment">
-          <button className="button">+ New Fragment</button>
+          <button className="button">+ New Snippet</button>
         </Link>
       </div>
 
