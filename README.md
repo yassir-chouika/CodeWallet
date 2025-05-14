@@ -1,34 +1,57 @@
-# code-wallet
+# 💼 CodeWallet
 
-An Electron application with React
+**CodeWallet** is a free, cross-platform desktop app that helps developers save and organize reusable code snippets.
 
-## Recommended IDE Setup
+Built with **React + Electron**, the app features fast performance, a clean UI, local JSON persistence, and a smooth developer experience.
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+---
 
-## Project Setup
+## 🚀 Features
 
-### Install
+- 💾 Save, edit, and delete code snippets
+- 🏷️ Tag snippets for filtering and categorization
+- 👁️ View code in a modal with copy-to-clipboard
+- 🌓 Toggle between dark and light mode
+- 🧭 Sidebar navigation
+- 🔍 Real-time search
+- 💾 Persistent local storage using `electron-store`
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer        | Tech Used               |
+|--------------|-------------------------|
+| Frontend     | React, JSX, Custom CSS  |
+| Desktop Shell| Electron + Electron Vite|
+| State Mgmt   | Zustand                 |
+| Storage      | Electron Store (JSON)   |
+| Styling      | Montserrat font + Custom colors ([Palette](https://coolors.co/ffffff-333333-b288c0-9a48d0-7bc950))
+
+---
+
+## ⚙️ Setup & Development
 
 ```bash
-$ npm install
-```
+# 1. Clone the repo
+git clone https://github.com/yassir-chouika/CodeWallet
 
-### Development
+# 2. Install dependencies
+npm install
+
+# 3. Start in development
+npm run dev
+
+---
+
+## �️ Build for Production
 
 ```bash
-$ npm run dev
-```
-
-### Build
-
-```bash
-# For windows
-$ npm run build:win
+# For Windows
+npm run build:win
 
 # For macOS
-$ npm run build:mac
+npm run build:mac
 
 # For Linux
-$ npm run build:linux
-```
+npm run build:linux

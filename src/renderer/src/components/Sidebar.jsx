@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { FaHome, FaPlus, FaTags, FaInfoCircle } from 'react-icons/fa'
+import ThemeToggle from './ThemeToggle'
 
 const Sidebar = () => {
   return (
@@ -16,6 +17,7 @@ const Sidebar = () => {
       <NavLink to="/info" className="nav-item">
         <FaInfoCircle /> Info
       </NavLink>
+      <ThemeToggle />
     </nav>
   )
 }
