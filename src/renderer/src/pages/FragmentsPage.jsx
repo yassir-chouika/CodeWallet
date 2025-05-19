@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import SnippetCard from '../components/SnippetCard'
 import Modal from '../components/Modal'
+import ConfirmModal from '../components/ConfirmModal'
 import useStore from '../state/useStore'
 
 const FragmentsPage = () => {
@@ -9,9 +10,11 @@ const FragmentsPage = () => {
   const searchTerm = useStore((state) => state.searchTerm)
   const setSearchTerm = useStore((state) => state.setSearchTerm)
   const getFilteredSnippets = useStore((state) => state.getFilteredSnippets)
+  const snippets = useStore((state) => state.snippets)
 
   const [selectedCode, setSelectedCode] = useState('')
   const [isModalVisible, setModalVisible] = useState(false)
+  const [selectedToDelete, setSelectedToDelete] = useState(null)
 
   useEffect(() => {
     useStore.getState().initSnippets()
@@ -22,11 +25,19 @@ const FragmentsPage = () => {
     setModalVisible(true)
   }
 
-  const handleDelete = (id) => {
-    deleteSnippet(id)
+  const handleDeleteRequest = (id) => {
+    setSelectedToDelete(id)
   }
 
-  const snippets = useStore((state) => state.snippets)
+  const confirmDelete = () => {
+    deleteSnippet(selectedToDelete)
+    setSelectedToDelete(null)
+  }
+
+  const cancelDelete = () => {
+    setSelectedToDelete(null)
+  }
+
   const filteredSnippets = searchTerm ? getFilteredSnippets() : snippets
 
   return (
@@ -56,13 +67,19 @@ const FragmentsPage = () => {
               key={snippet.id}
               snippet={snippet}
               onView={handleView}
-              onDelete={handleDelete}
+              onDelete={() => handleDeleteRequest(snippet.id)}
             />
           ))
         )}
       </div>
 
       <Modal visible={isModalVisible} code={selectedCode} onClose={() => setModalVisible(false)} />
+
+      <ConfirmModal
+        visible={selectedToDelete !== null}
+        onCancel={cancelDelete}
+        onConfirm={confirmDelete}
+      />
     </div>
   )
 }
