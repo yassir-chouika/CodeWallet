@@ -48,21 +48,34 @@ const TagsPage = () => {
       <h1>🏷️ Manage Tags</h1>
 
       {/* Add tag input */}
-      <div
-        className="tag-input-container"
-        style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}
-      >
+      <div className="tag-input-container" style={{ position: 'relative' }}>
         <input
           type="text"
           placeholder="Add a tag"
           value={newTag}
           onChange={(e) => setNewTag(e.target.value)}
           className="tag-input"
-          style={{ flex: 1 }}
         />
-        <button onClick={handleAddTag} className="button">
+        <button onClick={handleAddTag} className="button add-tag-btn">
           Add Tag
         </button>
+
+        {/* Suggestions dropdown */}
+        {newTag && (
+          <div className="tag-suggestions">
+            {tags
+              .filter(
+                (t) =>
+                  t.toLowerCase().includes(newTag.toLowerCase()) &&
+                  t.toLowerCase() !== newTag.toLowerCase()
+              )
+              .map((t) => (
+                <div key={t} className="suggestion-item" onClick={() => setNewTag(t)}>
+                  {t}
+                </div>
+              ))}
+          </div>
+        )}
       </div>
 
       {/* Tag list */}
