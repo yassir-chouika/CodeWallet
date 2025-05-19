@@ -31,7 +31,7 @@ const useStore = create((set, get) => ({
 
   // Add a new snippet
   addSnippet: (snippet) => {
-    const updated = [...get().snippets, snippet]
+    const updated = [snippet, ...get().snippets]
     const tags = extractUniqueTags(updated)
     set({ snippets: updated, tags })
     saveSnippets(updated)
