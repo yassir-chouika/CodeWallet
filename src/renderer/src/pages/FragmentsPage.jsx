@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import SnippetCard from '../components/SnippetCard'
 import Modal from '../components/Modal'
-import ConfirmModal from '../components/ConfirmModal'
 import useStore from '../state/useStore'
+import Swal from 'sweetalert2'
 
 const FragmentsPage = () => {
   const deleteSnippet = useStore((state) => state.deleteSnippet)
@@ -11,10 +11,8 @@ const FragmentsPage = () => {
   const setSearchTerm = useStore((state) => state.setSearchTerm)
   const getFilteredSnippets = useStore((state) => state.getFilteredSnippets)
   const snippets = useStore((state) => state.snippets)
-
   const [selectedCode, setSelectedCode] = useState('')
   const [isModalVisible, setModalVisible] = useState(false)
-  const [selectedToDelete, setSelectedToDelete] = useState(null)
 
   useEffect(() => {
     useStore.getState().initSnippets()
@@ -26,16 +24,38 @@ const FragmentsPage = () => {
   }
 
   const handleDeleteRequest = (id) => {
-    setSelectedToDelete(id)
-  }
+    const isDark = document.documentElement.classList.contains('dark')
 
-  const confirmDelete = () => {
-    deleteSnippet(selectedToDelete)
-    setSelectedToDelete(null)
-  }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      background: isDark ? '#2b2b2b' : '#ffffff',
+      color: isDark ? '#f0f0f0' : '#333',
+      showCancelButton: true,
+      confirmButtonColor: '#9a48d0',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      customClass: {
+        popup: isDark ? 'swal2-dark-popup' : ''
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteSnippet(id)
 
-  const cancelDelete = () => {
-    setSelectedToDelete(null)
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Your snippet has been deleted.',
+          icon: 'success',
+          background: isDark ? '#2b2b2b' : '#ffffff',
+          color: isDark ? '#f0f0f0' : '#333',
+          confirmButtonColor: '#7bc950',
+          customClass: {
+            popup: isDark ? 'swal2-dark-popup' : ''
+          }
+        })
+      }
+    })
   }
 
   const filteredSnippets = searchTerm ? getFilteredSnippets() : snippets
@@ -74,12 +94,6 @@ const FragmentsPage = () => {
       </div>
 
       <Modal visible={isModalVisible} code={selectedCode} onClose={() => setModalVisible(false)} />
-
-      <ConfirmModal
-        visible={selectedToDelete !== null}
-        onCancel={cancelDelete}
-        onConfirm={confirmDelete}
-      />
     </div>
   )
 }
