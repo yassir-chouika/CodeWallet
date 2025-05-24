@@ -1,10 +1,14 @@
+// Import React hooks for state and side effects
 import { useEffect, useState } from 'react'
 
+// Component for toggling between light/dark themes
 const ThemeToggle = () => {
+  // State to track dark mode, initialized from localStorage
   const [isDark, setIsDark] = useState(() => {
     return localStorage.getItem('theme') === 'dark'
   })
 
+  // Effect to apply theme changes to document and localStorage
   useEffect(() => {
     const root = document.documentElement
     if (isDark) {
@@ -16,6 +20,7 @@ const ThemeToggle = () => {
     }
   }, [isDark])
 
+  // Render theme toggle button
   return (
     <button
       className="button"
